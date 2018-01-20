@@ -1,19 +1,8 @@
 from mnist import MNIST
 import numpy as np
 import matplotlib.pyplot as plt
-
-def showNum(image):
-    for i in range(0, 28):
-        line = image[28 * i: 28 * (i + 1)]
-        strLine = ""
-        for j in line:
-            if j < 10:
-                strLine += "."
-            elif j < 100:
-                strLine += "x"
-            else:
-                strLine += "#"
-        print(strLine)
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import classification_report
 
 def showPlot(image, label):
     image = np.array(image, dtype='uint8')
@@ -23,10 +12,21 @@ def showPlot(image, label):
     plt.show()
 
 mndata = MNIST('samples')
+
 images, labels = mndata.load_training()
-# or
-#images, labels = mndata.load_testing()
-for i in range(0,1):
-    showNum(images[i])
-    print(labels[i])
-showPlot(images[3], labels[3])
+
+
+accuracies = []
+print("Fitting models")
+for k in range(1,10):
+    model = KNeighborsClassifier(n_neighbors=k)
+    model.fit(np.array(images[0:20000]), np.array(labels[0:20000]))
+    imagesTest, labelsTest = mndata.load_testing()
+    score = model.score(np.array(images[20000:22000]), np.array(labels[20000:22000]))
+    print("k=%d, accuracy=%.2f%%" % (k, score * 100))
+    accuracies.append(score)
+    predictions = model.predict(np.array(imagesTest[:1000]))
+    print("EVALUATION ON TESTING DATA")
+    print(classification_report(np.array(labelsTest[:1000]), predictions))
+
+
