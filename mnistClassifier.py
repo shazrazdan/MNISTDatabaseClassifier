@@ -29,22 +29,21 @@ for k in range(1, 2):
 
     neighDist, neighIndex = model.kneighbors(np.array(imagesTest[5342:5343]), n_neighbors=4)
 
+    showPlot(imagesTest[0], labelsTest[0])
 
-    print(neighIndex)
-    neighIndex = neighIndex.reshape((1, -1))
     print(neighIndex)
     print("Trained")
 
-    showPlot(imagesTest[5342], labelsTest[5342])
-    showPlot(images[neighIndex[0][0]], labels[neighIndex[0][0]])
-    showPlot(images[neighIndex[0][1]], labels[neighIndex[0][1]])
-    showPlot(images[neighIndex[0][2]], labels[neighIndex[0][2]])
-    showPlot(images[neighIndex[0][3]], labels[neighIndex[0][3]])
+    # showPlot(imagesTest[5342], labelsTest[5342])
+    # showPlot(images[neighIndex[0][0]], labels[neighIndex[0][0]])
+    # showPlot(images[neighIndex[0][1]], labels[neighIndex[0][1]])
+    # showPlot(images[neighIndex[0][2]], labels[neighIndex[0][2]])
+    # showPlot(images[neighIndex[0][3]], labels[neighIndex[0][3]])
 
 
-    # predictions = model.predict(np.array(imagesTest[:10000]))
-    # print("EVALUATION ON TESTING DATA")
-    # print(classification_report(np.array(labelsTest[:10000]), predictions))
+    predictions = model.predict(np.array(imagesTest[:1000]))
+    print("EVALUATION ON TESTING DATA")
+    print(classification_report(np.array(labelsTest[:1000]), predictions))
 
 
 
