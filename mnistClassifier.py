@@ -46,18 +46,20 @@ mndata = MNIST('samples')
 images, labels = mndata.load_training()
 imagesTest, labelsTest = mndata.load_testing()
 
-for k in range(1, 2):
+for k in range(1, 1500, 200):
+
+    print("----------------------------------")
+    print("Fitting models for k = " + str(k))
     model = KNeighborsClassifier(n_neighbors=k)
-    model.fit(np.array(images[:6000]), np.array(labels[:6000]))
+    model.fit(np.array(images[:60000]), np.array(labels[:60000]))
+    # accuracies = []
     # score = model.score(np.array(images[20000:22000]), np.array(labels[20000:22000]))
     # print("k=%d, accuracy=%.2f%%" % (k, score * 100))
     # accuracies.append(score)
-
-accuracies = []
-print("Fitting models")
-predictions = model.predict(np.array(imagesTest[:1000]))
-print("EVALUATION ON TESTING DATA")
-print(classification_report(np.array(labelsTest[:1000]), predictions))
-
-end = datetime.datetime.now()
-print(end-start)
+    print("Fitted. Now will test.")
+    predictions = model.predict(np.array(imagesTest[:10000]))
+    print("EVALUATION ON TESTING DATA")
+    print(classification_report(np.array(labelsTest[:10000]), predictions))
+    end = datetime.datetime.now()
+    print(end - start)
+    start = end
